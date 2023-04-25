@@ -13,14 +13,12 @@ class CadastrarProdutoController {
             preco,
             quantidade,
             disponivel,
-            id_marca
         } = req.body;
 
         const cadastrarProdutosUseCase = container.resolve(CadastrarProdutoUseCase);
         const produto = await cadastrarProdutosUseCase.execute({
             descricao_produto,
             disponivel,
-            id_marca,
             id_plataforma,
             nome_produto,
             preco,

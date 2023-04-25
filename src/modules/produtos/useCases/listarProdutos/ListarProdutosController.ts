@@ -1,0 +1,7 @@
+
+
+class ListarProdutosController {
+
+}
+
+export { ListarProdutosController };

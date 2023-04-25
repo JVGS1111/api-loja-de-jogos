@@ -6,5 +6,5 @@ export interface ICadastrarProdutoDTO {
     preco: number,
     quantidade: number,
     disponivel: boolean,
-    id_marca: string
+    id_marca?: string
 }

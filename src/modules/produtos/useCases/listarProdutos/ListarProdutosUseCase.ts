@@ -1,0 +1,6 @@
+
+class ListarProdutosUseCase {
+
+}
+
+export { ListarProdutosUseCase }
