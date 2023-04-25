@@ -2,13 +2,13 @@ import { AdicionarMarcaController } from "@modules/marcas/useCases/adicionarMarc
 import { ListarMarcasController } from "@modules/marcas/useCases/listarMarcas/ListarMarcasController";
 import { Router } from "express";
 
-const rotaMarcas = Router();
+const rotasMarcas = Router();
 
 const adicionarMarcaController = new AdicionarMarcaController();
 const listarMarcasController = new ListarMarcasController()
 
 
-rotaMarcas.post("/", adicionarMarcaController.handle);
-rotaMarcas.get("/", listarMarcasController.handle);
+rotasMarcas.post("/", adicionarMarcaController.handle);
+rotasMarcas.get("/", listarMarcasController.handle);
 
-export { rotaMarcas };
+export { rotasMarcas };

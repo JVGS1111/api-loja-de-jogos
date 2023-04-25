@@ -4,6 +4,8 @@ import { IPlataformasRepository } from "@repositories/Plataformas/IPlataformasRe
 import { PlataformasRepository } from "@repositories/Plataformas/PlataformasRepository";
 import { IMarcasRepository } from "@repositories/Marcas/IMarcasRepository";
 import { MarcasRepository } from "@repositories/Marcas/MarcasRepository";
+import { IProdutosRepository } from "@repositories/Produtos/IProdutosRepository";
+import { ProdutosRepository } from "@repositories/Produtos/ProdutosRepository";
 
 
 container.registerSingleton<IPlataformasRepository>(
@@ -14,4 +16,9 @@ container.registerSingleton<IPlataformasRepository>(
 container.registerSingleton<IMarcasRepository>(
     "MarcasRepository",
     MarcasRepository
+)
+
+container.registerSingleton<IProdutosRepository>(
+    "ProdutosRepository",
+    ProdutosRepository
 )
