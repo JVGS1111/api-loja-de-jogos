@@ -20,7 +20,7 @@ class ProdutosRepository implements IProdutosRepository {
         quantidade,
         id_marca,
         disponivel
-    }: ICadastrarProdutoDTO): Promise<any> {
+    }: ICadastrarProdutoDTO): Promise<Produto> {
         const produto = this.repository.create({
             descricao: descricao_produto,
             id_plataforma: id_plataforma,
@@ -36,8 +36,31 @@ class ProdutosRepository implements IProdutosRepository {
         return produto;
     }
 
-    async list(): Promise<any> {
-        const lista = await this.repository.find();
+    async list(
+        id_marca?: string,
+        id_plataforma?: string,
+        nome?: string,
+        promocao?: boolean,
+    ): Promise<Produto[]> {
+        const produtosQuary = this.repository.createQueryBuilder("query");
+
+        if (id_marca) {
+            produtosQuary.andWhere("id_marca = :id_marca", { id_marca });
+        }
+        if (id_plataforma) {
+            produtosQuary.andWhere("id_plataforma = :id_plataforma", { id_plataforma });
+        }
+        if (promocao) {
+            produtosQuary.andWhere("promocao = :promocao", { promocao });
+        }
+        if (nome) {
+            produtosQuary.andWhere("nome ILIKE :nome", { nome: `%${nome}%` });
+        }
+
+        const lista = await produtosQuary
+            .leftJoinAndSelect("query.plataforma", "plataforma")
+            .leftJoinAndSelect("query.marca", "marca")
+            .getMany()
 
         return lista;
     }
