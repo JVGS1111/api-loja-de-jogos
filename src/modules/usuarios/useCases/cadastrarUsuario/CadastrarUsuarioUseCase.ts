@@ -1,10 +1,18 @@
+import auth from "@config/auth";
 import { AppError } from "@errors/AppError";
-import { ICreateUsuarioDTO } from "@modules/usuarios/DTO/ICreateUsuarioDTO";
-import { UsuariosRepository } from "@repositories/Usuarios/UsuariosRepository";
+import { IUsuariosRepository } from "@repositories/Usuarios/IUsuariosRepository";
 import { hash } from "bcrypt";
+import { sign } from "jsonwebtoken";
 import { inject, injectable } from "tsyringe";
 
-export interface IRequest {
+interface IResponse {
+    nome: string,
+    email: string,
+    token: string,
+    id: string,
+}
+
+interface IRequest {
     nome: string,
     senha: string,
     confirmar_senha: string,
@@ -16,7 +24,7 @@ class CadastrarUsuarioUseCase {
 
     constructor(
         @inject("UsuariosRepository")
-        private usuariosRepository: UsuariosRepository
+        private usuariosRepository: IUsuariosRepository
     ) { }
     async execute({
         nome,
@@ -35,7 +43,6 @@ class CadastrarUsuarioUseCase {
             throw new AppError("O email já está em uso");
         }
 
-
         const passwordHash = await hash(senha, 8);
 
         try {
@@ -43,9 +50,26 @@ class CadastrarUsuarioUseCase {
                 nome,
                 senha: passwordHash,
                 email
+            });
+
+            const {
+                secret_token,
+                expires_in_token
+            } = auth;
+
+            const token = sign({}, secret_token, {
+                subject: user.id,
+                expiresIn: expires_in_token
             })
 
-            return user;
+            const tokenReturn: IResponse = {
+                id: user.id,
+                nome: user.nome,
+                email: user.email,
+                token: token,
+            }
+
+            return tokenReturn;
         } catch (err) {
             throw new Error(err.message);
         }
