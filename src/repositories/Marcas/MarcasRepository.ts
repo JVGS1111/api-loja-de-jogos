@@ -37,6 +37,19 @@ class MarcasRepository implements IMarcasRepository {
 
         return marca;
     }
+
+    async editMarca(id: any, nome_marca: string): Promise<Marca> {
+        const result = await this.repository.createQueryBuilder()
+            .update(Marca)
+            .set({ nome_marca: nome_marca })
+            .where("id = :id", { id })
+            .returning(["id", "nome_marca"])
+            .execute();
+
+        const marcaAtualizada = result.raw as Marca[];
+
+        return marcaAtualizada[0];
+    }
 }
 
 export { MarcasRepository };

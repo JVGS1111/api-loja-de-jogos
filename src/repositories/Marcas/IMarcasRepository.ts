@@ -6,4 +6,5 @@ export interface IMarcasRepository {
     list(): Promise<Marca[]>;
     findById(id: string): Promise<Marca>;
     findByName(nome_marca: string): Promise<Marca>;
+    editMarca(id, nome_marca: string): Promise<Marca>;
 }
