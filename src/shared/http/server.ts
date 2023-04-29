@@ -1,5 +1,6 @@
+import createConnection from "database";
 import { app } from "./app";
-import { createConnection } from "database";
+
 
 createConnection();
 

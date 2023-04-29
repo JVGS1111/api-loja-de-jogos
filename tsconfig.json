@@ -19,6 +19,12 @@
             ],
             "@repositories/*": [
                 "repositories/*"
+            ],
+            "@database/*": [
+                "database/*"
+            ],
+            "@models/*": [
+                "models/*"
             ]
         },
         "experimentalDecorators": true,
