@@ -11,5 +11,4 @@ const listarProdutosController = new ListarProdutosController();
 rotasProdutos.post("/", ensureAuthenticated, ensureAdmin, cadastrarProdutoController.handle);
 rotasProdutos.get("/", listarProdutosController.handle);
 
-
 export { rotasProdutos };
