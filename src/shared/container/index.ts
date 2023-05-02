@@ -8,6 +8,8 @@ import { IProdutosRepository } from "@repositories/Produtos/IProdutosRepository"
 import { ProdutosRepository } from "@repositories/Produtos/ProdutosRepository";
 import { IUsuariosRepository } from "@repositories/Usuarios/IUsuariosRepository";
 import { UsuariosRepository } from "@repositories/Usuarios/UsuariosRepository";
+import { IProdutosImagesRepository } from "@repositories/ProdutosImages/IProdutosImagesRepository";
+import { ProdutosImagesRepository } from "@repositories/ProdutosImages/ProdutosImagesRepository";
 
 
 container.registerSingleton<IPlataformasRepository>(
@@ -28,4 +30,9 @@ container.registerSingleton<IProdutosRepository>(
 container.registerSingleton<IUsuariosRepository>(
     "UsuariosRepository",
     UsuariosRepository
+)
+
+container.registerSingleton<IProdutosImagesRepository>(
+    "ProdutosImagesRepository",
+    ProdutosImagesRepository
 )

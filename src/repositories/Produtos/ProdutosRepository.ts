@@ -64,6 +64,12 @@ class ProdutosRepository implements IProdutosRepository {
 
         return lista;
     }
+
+    async findByProductId(id: string): Promise<Produto> {
+        const product = await this.repository.findOneBy({ id: id });
+
+        return product;
+    }
 }
 
 export { ProdutosRepository };

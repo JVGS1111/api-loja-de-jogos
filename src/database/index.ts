@@ -7,6 +7,8 @@ import { Produtos1682203921042 } from "./migrations/1682203921042-produtos";
 import { Produto } from "../models/Produto";
 import { Usuario } from "../models/Usuario";
 import { Usuarios1682510886395 } from "./migrations/1682510886395-usuarios";
+import { ImagensProdutos1682805160889 } from "./migrations/1682805160889-imagensProdutos";
+import { ProdutoImagens } from "@models/ProdutoImagens";
 
 const dataSource = new DataSource({
     type: "postgres",
@@ -18,13 +20,15 @@ const dataSource = new DataSource({
         Marca,
         Plataforma,
         Produto,
-        Usuario
+        Usuario,
+        ProdutoImagens
     ],
     migrations: [
         Marcas1681995957738,
         Plataformas1681992444797,
         Produtos1682203921042,
-        Usuarios1682510886395
+        Usuarios1682510886395,
+        ImagensProdutos1682805160889
     ],
 
 })
