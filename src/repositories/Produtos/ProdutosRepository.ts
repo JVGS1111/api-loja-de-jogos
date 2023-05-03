@@ -3,6 +3,7 @@ import { IProdutosRepository } from "./IProdutosRepository";
 import { Repository } from "typeorm";
 import { Produto } from "models/Produto";
 import { dataSource } from "database";
+import { ProdutoImagens } from "@models/ProdutoImagens";
 
 
 class ProdutosRepository implements IProdutosRepository {
@@ -41,7 +42,7 @@ class ProdutosRepository implements IProdutosRepository {
         id_plataforma?: string,
         nome?: string,
         promocao?: boolean,
-    ): Promise<Produto[]> {
+    ): Promise<any[]> {
         const produtosQuary = this.repository.createQueryBuilder("query");
 
         if (id_marca) {
@@ -60,10 +61,12 @@ class ProdutosRepository implements IProdutosRepository {
         const lista = await produtosQuary
             .leftJoinAndSelect("query.plataforma", "plataforma")
             .leftJoinAndSelect("query.marca", "marca")
-            .getMany()
+            .leftJoinAndMapMany("query.fotos", ProdutoImagens, "imagens", "query.id = imagens.id_produto")
+            .getMany();
 
         return lista;
     }
+
 
     async findByProductId(id: string): Promise<Produto> {
         const product = await this.repository.findOneBy({ id: id });

@@ -1,7 +1,8 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, UpdateDateColumn } from "typeorm";
 import { v4 as uuid } from "uuid";
 import { Plataforma } from "./Plataforma";
 import { Marca } from "./Marca";
+import { ProdutoImagens } from "./ProdutoImagens";
 
 @Entity('produtos')
 class Produto {
@@ -30,6 +31,9 @@ class Produto {
     @ManyToOne(() => Plataforma)
     @JoinColumn({ name: "id_plataforma" })
     plataforma: Plataforma;
+
+    @OneToMany(() => ProdutoImagens, (imagens) => imagens.id_produto)
+    fotos: ProdutoImagens[];
 
     @ManyToOne(() => Marca)
     @JoinColumn({ name: "id_marca" })
