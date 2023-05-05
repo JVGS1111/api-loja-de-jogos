@@ -25,4 +25,14 @@ export class ProdutosImagesRepository implements IProdutosImagesRepository {
 
         return lista;
     }
+
+    async del(id: string): Promise<void> {
+        await this.repository.delete({ id });
+    }
+
+    async findImageById(id: string): Promise<ProdutoImagens> {
+        const imagem = await this.repository.findOneBy({ id });
+
+        return imagem;
+    }
 }

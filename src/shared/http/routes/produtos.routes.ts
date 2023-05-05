@@ -1,6 +1,7 @@
 import uploadImages from "@config/uploadImages";
 import { CadastrarFotoProdutoController } from "@modules/produtos/useCases/cadastrarFotoProduto/CadastrarFotoProdutoController";
 import { CadastrarProdutoController } from "@modules/produtos/useCases/cadastrarProduto/CadastrarProdutoController";
+import { DeletarFotoProdutoController } from "@modules/produtos/useCases/deletarFotoProduto/DeletarFotoProdutoController";
 import { ListarProdutosController } from "@modules/produtos/useCases/listarProdutos/ListarProdutosController";
 import { Router } from "express";
 import { ensureAdmin } from "middlewares/ensureAdmin";
@@ -13,9 +14,11 @@ const upload = multer(uploadImages.upload('./imagens/produtos'));
 const cadastrarProdutoController = new CadastrarProdutoController();
 const listarProdutosController = new ListarProdutosController();
 const cadastrarFotoProdutosController = new CadastrarFotoProdutoController();
+const deletarFotoProdutosController = new DeletarFotoProdutoController()
 
 rotasProdutos.post("/", ensureAuthenticated, ensureAdmin, cadastrarProdutoController.handle);
 rotasProdutos.get("/", listarProdutosController.handle);
 rotasProdutos.post("/imagens/:id", ensureAuthenticated, ensureAdmin, upload.array("imagens"), cadastrarFotoProdutosController.handle);
+rotasProdutos.delete("/imagens/deletar", ensureAuthenticated, ensureAdmin, deletarFotoProdutosController.handle);
 
 export { rotasProdutos };
