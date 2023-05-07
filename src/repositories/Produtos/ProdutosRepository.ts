@@ -4,6 +4,7 @@ import { Repository } from "typeorm";
 import { Produto } from "models/Produto";
 import { dataSource } from "database";
 import { ProdutoImagens } from "@models/ProdutoImagens";
+import { IEditarProdutoDTO } from "@modules/produtos/DTO/IEditarProdutoDTO";
 
 
 class ProdutosRepository implements IProdutosRepository {
@@ -20,7 +21,7 @@ class ProdutosRepository implements IProdutosRepository {
         preco,
         quantidade,
         id_marca,
-        disponivel
+        disponivel,
     }: ICadastrarProdutoDTO): Promise<Produto> {
         const produto = this.repository.create({
             descricao: descricao_produto,
@@ -72,6 +73,41 @@ class ProdutosRepository implements IProdutosRepository {
         const product = await this.repository.findOneBy({ id: id });
 
         return product;
+    }
+
+    async edit(data: IEditarProdutoDTO): Promise<Produto> {
+        const result = await this.repository.createQueryBuilder()
+            .update(Produto)
+            .set({
+                nome: data.nome_produto,
+                descricao: data.descricao_produto,
+                id_plataforma: data.id_plataforma,
+                preco: data.preco,
+                quantidade: data.quantidade,
+                disponivel: data.disponivel,
+                id_marca: data.id_marca,
+                promocao: data.promocao,
+                porcentagem_promocao: data.porcentagem_promocao,
+                valor_promocao: data.valor_promocao
+            })
+            .where("id = :id", { id: data.id })
+            .returning([
+                "id",
+                "nome",
+                "descricao",
+                "id_plataforma",
+                "preco",
+                "quantidade",
+                "disponivel",
+                "id_marca",
+                "promocao",
+                "porcentagem_promocao",
+                "valor_promocao"
+            ])
+            .execute();
+
+        const produtoAtt = result.raw as Produto[];
+        return produtoAtt[0];
     }
 }
 

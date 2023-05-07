@@ -1,17 +1,17 @@
 import { inject, injectable } from "tsyringe";
 import { ICadastrarProdutoDTO } from "./CadastrarProdutoDTO";
-import { ProdutosRepository } from "@repositories/Produtos/ProdutosRepository";
-import { PlataformasRepository } from "@repositories/Plataformas/PlataformasRepository";
 import { AppError } from "@errors/AppError";
+import { IPlataformasRepository } from "@repositories/Plataformas/IPlataformasRepository";
+import { IProdutosRepository } from "@repositories/Produtos/IProdutosRepository";
 
 @injectable()
 class CadastrarProdutoUseCase {
 
     constructor(
         @inject("ProdutosRepository")
-        private produtosRepository: ProdutosRepository,
+        private produtosRepository: IProdutosRepository,
         @inject("PlataformasRepository")
-        private plataformasRepository: PlataformasRepository
+        private plataformasRepository: IPlataformasRepository
     ) { }
 
     async execute({
@@ -22,14 +22,17 @@ class CadastrarProdutoUseCase {
         quantidade,
         disponivel
     }: ICadastrarProdutoDTO) {
-        //verificar se marca e plataforma existem
+
+        if (preco <= 0) {
+            throw new AppError("Preço inválido");
+        }
+
         const plataforma = await this.plataformasRepository.findById(id_plataforma);
 
         if (!plataforma) {
             throw new AppError("Plataforma informada não existe");
         }
-
-        const produto = await this.produtosRepository.create({
+        const model: ICadastrarProdutoDTO = {
             descricao_produto,
             id_marca: plataforma.id_marca,
             id_plataforma,
@@ -37,7 +40,13 @@ class CadastrarProdutoUseCase {
             preco,
             nome_produto,
             quantidade
-        });
+        }
+
+        if (quantidade <= 0) {
+            model.quantidade = 0;
+            model.disponivel = false;
+        }
+        const produto = await this.produtosRepository.create(model);
 
         return produto
     }
