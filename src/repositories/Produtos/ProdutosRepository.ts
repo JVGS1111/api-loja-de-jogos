@@ -69,10 +69,18 @@ class ProdutosRepository implements IProdutosRepository {
     }
 
 
-    async findByProductId(id: string): Promise<Produto> {
-        const product = await this.repository.findOneBy({ id: id });
+    async findByProductId(id: string, relation = false): Promise<Produto> {
+        const produtoQuery = this.repository.createQueryBuilder("query");
 
-        return product;
+        if (relation) {
+            produtoQuery
+                .leftJoinAndSelect("query.plataforma", "plataforma")
+                .leftJoinAndSelect("query.marca", "marca")
+                .leftJoinAndMapMany("query.fotos", ProdutoImagens, "imagens", "query.id = imagens.id_produto")
+        }
+
+        const prod = await produtoQuery.where("query.id = :id", { id }).getOne();
+        return prod;
     }
 
     async edit(data: IEditarProdutoDTO): Promise<Produto> {

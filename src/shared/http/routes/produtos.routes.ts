@@ -4,6 +4,7 @@ import { CadastrarProdutoController } from "@modules/produtos/useCases/cadastrar
 import { DeletarFotoProdutoController } from "@modules/produtos/useCases/deletarFotoProduto/DeletarFotoProdutoController";
 import { EditarProdutoController } from "@modules/produtos/useCases/editarProduto/EditarProdutoController";
 import { ListarProdutosController } from "@modules/produtos/useCases/listarProdutos/ListarProdutosController";
+import { ObterProdutoController } from "@modules/produtos/useCases/obterProduto/ObterProdutoController";
 import { Router } from "express";
 import { ensureAdmin } from "middlewares/ensureAdmin";
 import { ensureAuthenticated } from "middlewares/ensureAuthenticated";
@@ -17,11 +18,13 @@ const listarProdutosController = new ListarProdutosController();
 const cadastrarFotoProdutosController = new CadastrarFotoProdutoController();
 const deletarFotoProdutosController = new DeletarFotoProdutoController()
 const editarProdutoController = new EditarProdutoController();
+const obterProdutoController = new ObterProdutoController();
 
 rotasProdutos.post("/", ensureAuthenticated, ensureAdmin, cadastrarProdutoController.handle);
-rotasProdutos.get("/", listarProdutosController.handle);
 rotasProdutos.post("/imagens/:id", ensureAuthenticated, ensureAdmin, upload.array("imagens"), cadastrarFotoProdutosController.handle);
 rotasProdutos.delete("/imagens/deletar", ensureAuthenticated, ensureAdmin, deletarFotoProdutosController.handle);
 rotasProdutos.put("/editar/:id", ensureAuthenticated, ensureAdmin, editarProdutoController.handle);
+rotasProdutos.get("/", listarProdutosController.handle);
+rotasProdutos.get("/:id", obterProdutoController.handle);
 
 export { rotasProdutos };
