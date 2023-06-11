@@ -8,4 +8,5 @@ export interface IProdutosRepository {
     list(id_marca?: string, id_plataforma?: string, nome?: string, promocao?: boolean): Promise<Produto[]>;
     findByProductId(id: string, relation?: boolean): Promise<Produto>;
     edit(data: IEditarProdutoDTO): Promise<Produto>;
+    reduzirQuantidade(id: string, qtd: number): Promise<void>;
 }

@@ -10,6 +10,10 @@ import { IUsuariosRepository } from "@repositories/Usuarios/IUsuariosRepository"
 import { UsuariosRepository } from "@repositories/Usuarios/UsuariosRepository";
 import { IProdutosImagesRepository } from "@repositories/ProdutosImages/IProdutosImagesRepository";
 import { ProdutosImagesRepository } from "@repositories/ProdutosImages/ProdutosImagesRepository";
+import { IPedidosRespository } from "@repositories/Pedidos/IPedidosRepository";
+import { PedidosRepository } from "@repositories/Pedidos/PedidosRepository";
+import { IProdutosPedidoRepository } from "@repositories/ProdutosPedido/IProdutosPedidoRepository";
+import { ProdutosPedidoRepository } from "@repositories/ProdutosPedido/ProdutosPedidoRepository";
 
 
 container.registerSingleton<IPlataformasRepository>(
@@ -35,4 +39,14 @@ container.registerSingleton<IUsuariosRepository>(
 container.registerSingleton<IProdutosImagesRepository>(
     "ProdutosImagesRepository",
     ProdutosImagesRepository
+)
+
+container.registerSingleton<IPedidosRespository>(
+    "PedidosRepository",
+    PedidosRepository
+)
+
+container.registerSingleton<IProdutosPedidoRepository>(
+    "ProdutosPedidoRepository",
+    ProdutosPedidoRepository
 )

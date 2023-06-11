@@ -6,7 +6,6 @@ import { dataSource } from "database";
 import { ProdutoImagens } from "@models/ProdutoImagens";
 import { IEditarProdutoDTO } from "@modules/produtos/DTO/IEditarProdutoDTO";
 
-
 class ProdutosRepository implements IProdutosRepository {
 
     repository: Repository<Produto>;
@@ -116,6 +115,12 @@ class ProdutosRepository implements IProdutosRepository {
 
         const produtoAtt = result.raw as Produto[];
         return produtoAtt[0];
+    }
+
+    async reduzirQuantidade(id: string, qtd: number): Promise<void> {
+        await this.repository.update(id, {
+            quantidade: qtd
+        });
     }
 }
 
